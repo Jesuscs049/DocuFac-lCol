@@ -830,8 +830,8 @@ function drawCrop(){
   // Dim outside
   cx.fillStyle='rgba(0,0,0,.6)';cx.fillRect(0,0,W,H);
   const rx=Math.round(r.x*W),ry=Math.round(r.y*H),rw=Math.round(r.w*W),rh=Math.round(r.h*H);
-  // Reveal inside
-  cx.drawImage(img,rx,ry,rw,rh,rx,ry,rw,rh);
+  // Reveal inside — sample from the FULL-RES image using normalized rect, draw onto canvas coords
+  cx.drawImage(img,r.x*img.naturalWidth,r.y*img.naturalHeight,r.w*img.naturalWidth,r.h*img.naturalHeight,rx,ry,rw,rh);
   // Border
   cx.strokeStyle='#FFCB05';cx.lineWidth=2.5;cx.strokeRect(rx,ry,rw,rh);
   // Thirds guide
