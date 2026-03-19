@@ -12,52 +12,52 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{--P:#0A3282;--PL:#1547BE;--A:#FFCB05;--BG:#EEF2FF;--W:#fff;--TX:#111827;--MU:#6B7280;--BR:#D1D9F0;--RD:#EF4444;--r:16px;--sh:0 2px 20px rgba(10,50,130,.10)}
+:root{
+  --P:#0A3282;--PL:#1547BE;--A:#FFCB05;--BG:#EEF2FF;--W:#fff;
+  --TX:#111827;--MU:#6B7280;--BR:#D1D9F0;--RD:#EF4444;
+  --r:16px;--sh:0 2px 20px rgba(10,50,130,.10);
+}
 html,body{height:100%;overflow:hidden}
 body{font-family:'Nunito',sans-serif;background:var(--BG);color:var(--TX);display:flex;flex-direction:column}
 
-/* HEADER */
+/* ─── HEADER ─── */
 .hdr{background:var(--P);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;z-index:50}
-.hdr-logo{font-size:22px}.hdr-title{font-size:17px;font-weight:900}
+.hdr-logo{font-size:22px}
+.hdr-title{font-size:17px;font-weight:900}
 .hdr-right{margin-left:auto;display:flex;align-items:center;gap:8px}
 .hdr-badge{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap}
 .hdr-info{background:rgba(255,255,255,.15);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 
-/* MAIN */
+/* ─── MAIN ─── */
 .main{flex:1;overflow-y:auto;overflow-x:hidden;padding:14px 14px 130px}
-
-/* SECTION */
-.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .sec-lbl{font-size:12px;font-weight:900;color:var(--P);text-transform:uppercase;letter-spacing:.6px}
 .sec-hint{font-size:11px;color:var(--MU)}
 
-/* ─── THUMB CARD — used for both tray and project pages ─── */
-.thumb-card{position:relative;border-radius:10px;overflow:hidden;border:2px solid var(--BR);background:#e5e7eb;cursor:pointer;user-select:none;touch-action:none}
-.thumb-card img{width:100%;height:100%;display:block;object-fit:cover;pointer-events:none}
-/* Top band — always visible */
-.thumb-top{position:absolute;top:0;left:0;right:0;background:rgba(10,30,100,.72);color:#fff;font-size:11px;font-weight:800;padding:5px 7px;display:flex;align-items:center;gap:4px;z-index:4}
-.thumb-top-icon{font-size:13px}
-/* Bottom band */
-.thumb-bot{position:absolute;bottom:0;left:0;right:0;color:#fff;font-size:11px;font-weight:800;padding:5px 7px;display:flex;align-items:center;gap:4px;z-index:4}
-.thumb-bot-red{background:rgba(220,38,38,.88)}
-.thumb-bot-blue{background:rgba(10,50,130,.88)}
-/* Selection overlay */
-.thumb-card.sel::after{content:'✓';position:absolute;inset:0;background:rgba(10,50,130,.45);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;color:#fff;z-index:3}
-.thumb-card.sel{border-color:var(--P)}
-/* Page number badge */
-.thumb-num{position:absolute;bottom:24px;left:0;right:0;text-align:center;font-size:10px;font-weight:800;color:rgba(255,255,255,.9);text-shadow:0 1px 3px rgba(0,0,0,.7);z-index:2;pointer-events:none}
+/* ─── TRAY ─── */
+/* Horizontal scroll row of cards */
+.tray-scroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none;min-height:20px}
+.tray-scroll::-webkit-scrollbar{display:none}
+.tray-empty{padding:18px 0;text-align:center;font-size:13px;font-weight:700;color:var(--MU);width:100%}
 
-/* TRAY */
-.tray-grid{display:flex;flex-wrap:wrap;gap:12px;padding-bottom:4px;min-height:60px;align-items:flex-start}
-.tray-empty{width:100%;text-align:center;font-size:13px;font-weight:700;color:var(--MU);padding:14px 0}
-.tray-item{width:72px;flex-shrink:0}
-.tray-item .thumb-card{width:72px;height:90px}
+/* TRAY CARD — larger, readable thumbnail + 3 action buttons */
+.tray-card{flex-shrink:0;width:110px;display:flex;flex-direction:column;gap:0;background:var(--W);border-radius:14px;overflow:hidden;box-shadow:var(--sh);border:2px solid var(--BR)}
+.tray-card img{width:110px;height:138px;object-fit:cover;display:block;background:#e5e7eb}
+.tray-card-lbl{font-size:10px;font-weight:800;color:var(--MU);text-align:center;padding:4px 6px 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tray-actions{display:flex;border-top:1px solid var(--BR)}
+.tray-btn{flex:1;border:none;background:none;cursor:pointer;padding:8px 2px;font-size:10px;font-weight:800;display:flex;flex-direction:column;align-items:center;gap:2px;transition:background .15s;color:var(--TX)}
+.tray-btn:active{background:var(--BG)}
+.tray-btn+.tray-btn{border-left:1px solid var(--BR)}
+.tray-btn-icon{font-size:15px;line-height:1}
+.tray-btn.del{color:var(--RD)}
+.tray-btn.crop-btn-t{color:var(--P)}
+.tray-btn.view-btn-t{color:#047857}
 
-/* DRAG GHOST */
-#drag-ghost{position:fixed;z-index:9999;pointer-events:none;width:64px;height:80px;border-radius:10px;overflow:hidden;box-shadow:0 8px 32px rgba(10,50,130,.4);opacity:.88;transform:rotate(3deg) scale(1.08)}
+/* ─── DRAG GHOST ─── */
+#drag-ghost{position:fixed;z-index:9999;pointer-events:none;width:72px;height:90px;border-radius:10px;overflow:hidden;box-shadow:0 8px 32px rgba(10,50,130,.4);opacity:.9;transform:rotate(3deg) scale(1.08)}
 #drag-ghost img{width:100%;height:100%;object-fit:cover;display:block}
 
-/* PROJECT CARDS */
+/* ─── PROJECT CARDS ─── */
 .proj-list{display:flex;flex-direction:column;gap:14px;margin-top:16px}
 .proj-card{background:var(--W);border-radius:var(--r);box-shadow:var(--sh);border:2px solid transparent;transition:border-color .2s;overflow:hidden}
 .proj-card.drop-active{border-color:var(--A);box-shadow:0 0 0 3px rgba(255,203,5,.3)}
@@ -66,20 +66,26 @@ body{font-family:'Nunito',sans-serif;background:var(--BG);color:var(--TX);displa
 .pc-icon{font-size:20px;flex-shrink:0}
 .pc-name{flex:1;font-size:15px;font-weight:800;color:var(--P);background:none;border:none;font-family:'Nunito',sans-serif;padding:0;outline:none;min-width:0;width:100%}
 .pc-acts{display:flex;gap:2px;flex-shrink:0}
-.ic-btn{background:none;border:none;font-size:18px;cursor:pointer;padding:6px;border-radius:8px;line-height:1;min-width:36px;min-height:36px;display:flex;align-items:center;justify-content:center}
+.ic-btn{background:none;border:none;font-size:18px;cursor:pointer;padding:6px;border-radius:8px;min-width:36px;min-height:36px;display:flex;align-items:center;justify-content:center}
 .ic-btn:active{background:var(--BG)}
 
-/* PAGES GRID — wraps, 5 columns */
+/* Page grid — 5 columns, wraps */
 .pc-pages{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:10px 14px}
-.pc-page-cell{aspect-ratio:3/4}
-.pc-page-cell .thumb-card{width:100%;height:100%}
+.pc-page-cell{aspect-ratio:3/4;position:relative;border-radius:8px;overflow:hidden;border:2px solid var(--BR);background:#e5e7eb;cursor:pointer}
+.pc-page-cell img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.pc-page-cell.sel{border-color:var(--P)}
+.pc-page-cell.sel::after{content:'✓';position:absolute;inset:0;background:rgba(10,50,130,.45);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#fff}
+.pc-page-num{position:absolute;bottom:2px;left:0;right:0;text-align:center;font-size:9px;font-weight:800;color:rgba(255,255,255,.95);text-shadow:0 1px 3px rgba(0,0,0,.7);pointer-events:none;z-index:2}
+/* eye icon for project pages */
+.pc-page-eye{position:absolute;top:2px;right:2px;background:rgba(10,40,100,.7);color:#fff;border:none;border-radius:4px;width:20px;height:18px;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;pointer-events:all}
+
 .pc-empty-drop{grid-column:span 5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:var(--MU);font-size:13px;font-weight:700;min-height:88px;border:2px dashed var(--BR);border-radius:10px;pointer-events:none}
 
-/* EDIT TOOLBAR */
+/* ─── EDIT TOOLBAR ─── */
 .edit-tb{display:none;padding:10px 14px 16px;flex-direction:column;gap:10px;border-top:1px solid var(--BR);background:var(--BG)}
 .proj-card.editing .edit-tb{display:flex}
 .op-banner{background:var(--P);color:#fff;border-radius:12px;padding:13px 16px;display:flex;align-items:flex-start;gap:10px}
-.op-banner-icon{font-size:26px;flex-shrink:0;margin-top:1px}
+.op-banner-icon{font-size:26px;flex-shrink:0;margin-top:2px}
 .op-banner-title{font-size:16px;font-weight:900;margin-bottom:3px}
 .op-banner-text{font-size:13px;font-weight:700;line-height:1.4;opacity:.9}
 .op-tabs{display:flex;gap:8px}
@@ -87,17 +93,17 @@ body{font-family:'Nunito',sans-serif;background:var(--BG);color:var(--TX);displa
 .op-tab.active{background:var(--P);color:#fff}
 .op-tab:not(.active){background:#fff;color:var(--P);border:2px solid var(--BR)}
 
-/* FAB */
+/* ─── FAB ─── */
 #fab{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);display:none;background:var(--P);color:#fff;border:none;border-radius:60px;padding:18px 40px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 6px 28px rgba(10,50,130,.45);white-space:nowrap;z-index:200;animation:fabIn .22s ease;min-height:56px}
 @keyframes fabIn{from{opacity:0;transform:translateX(-50%) translateY(14px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 #fab.on{display:block}
 
-/* ADD PROJECT */
-.add-proj{background:#fff;border:3px dashed var(--BR);border-radius:var(--r);padding:20px;display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:var(--P);margin-top:14px;transition:all .2s;width:100%}
+/* ─── ADD PROJECT ─── */
+.add-proj{background:#fff;border:3px dashed var(--BR);border-radius:var(--r);padding:20px;display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;color:var(--P);margin-top:14px;width:100%;transition:all .2s}
 .add-proj:active{border-color:var(--P);background:var(--BG)}
 .add-proj:disabled{opacity:.4;pointer-events:none}
 
-/* BOTTOM BAR */
+/* ─── BOTTOM BAR ─── */
 .bbar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid var(--BR);padding:10px 14px 20px;display:flex;gap:8px;z-index:100}
 .bb{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;border:none;border-radius:12px;font-family:'Nunito',sans-serif;cursor:pointer;font-size:12px;font-weight:800;transition:transform .15s;min-height:56px}
 .bb:active{transform:scale(.95)}
@@ -106,43 +112,41 @@ body{font-family:'Nunito',sans-serif;background:var(--BG);color:var(--TX);displa
 .bb-sec{background:var(--BG);color:var(--P)}
 .bb-gold{background:#FFFBEB;color:var(--P)}
 
-/* ════ CROP MODAL ════ */
+/* ═══ CROP MODAL ═══ */
 #modal-crop{position:fixed;inset:0;background:#000;z-index:800;display:none;flex-direction:column}
 #modal-crop.open{display:flex}
 .crop-hdr{background:var(--P);color:#fff;padding:13px 16px;flex-shrink:0}
 .crop-title{font-size:17px;font-weight:900}
 .crop-sub{font-size:12px;opacity:.8;margin-top:2px}
 .crop-area{flex:1;position:relative;overflow:hidden;background:#1a1a1a;display:flex;align-items:center;justify-content:center}
-/* canvas is absolutely positioned inside crop-area */
 #crop-cv{position:absolute;display:block;touch-action:none;cursor:crosshair}
 .crop-ftr{padding:14px 16px 28px;background:#111;display:flex;gap:10px;flex-shrink:0}
-.crop-btn{flex:1;padding:16px;border:none;border-radius:13px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;cursor:pointer;min-height:54px}
-.crop-cancel{background:#333;color:#fff}
-.crop-ok{background:var(--A);color:var(--P)}
+.crop-btn-cancel{flex:1;padding:16px;border:none;border-radius:13px;background:#333;color:#fff;font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;cursor:pointer;min-height:54px}
+.crop-btn-ok{flex:1;padding:16px;border:none;border-radius:13px;background:var(--A);color:var(--P);font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;cursor:pointer;min-height:54px}
 
-/* ════ PREVIEW MODAL ════ */
-#modal-preview{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:900;display:none;flex-direction:column;align-items:center;justify-content:center}
+/* ═══ PREVIEW MODAL ═══ */
+#modal-preview{position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:900;display:none;flex-direction:column;align-items:center;justify-content:center}
 #modal-preview.open{display:flex}
-#preview-img{max-width:96vw;max-height:86vh;border-radius:10px;object-fit:contain;display:block}
-.preview-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.2);color:#fff;border:2px solid rgba(255,255,255,.3);border-radius:50%;width:44px;height:44px;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:900}
-.preview-label{position:absolute;bottom:20px;left:0;right:0;text-align:center;color:rgba(255,255,255,.6);font-size:12px;font-weight:700}
+#preview-img{max-width:96vw;max-height:84vh;border-radius:10px;object-fit:contain;display:block}
+.preview-close{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.2);color:#fff;border:2px solid rgba(255,255,255,.3);border-radius:50%;width:46px;height:46px;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:900}
+.preview-label{position:absolute;bottom:18px;left:0;right:0;text-align:center;color:rgba(255,255,255,.55);font-size:12px;font-weight:700}
 
-/* ════ CONTACT MODAL ════ */
+/* ═══ CONTACT MODAL ═══ */
 #modal-contact{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:850;display:none;align-items:flex-end}
 #modal-contact.open{display:flex}
 .contact-sheet{background:#fff;border-radius:24px 24px 0 0;padding:22px 20px 44px;width:100%}
 .contact-handle{width:40px;height:4px;background:var(--BR);border-radius:2px;margin:0 auto 18px}
 .contact-title{font-size:20px;font-weight:900;margin-bottom:6px}
-.contact-sub{font-size:13px;color:var(--MU);margin-bottom:16px;line-height:1.45}
+.contact-sub{font-size:13px;color:var(--MU);margin-bottom:12px;line-height:1.45}
 .contact-note{font-size:12px;color:var(--MU);background:var(--BG);border-radius:10px;padding:10px 12px;margin-bottom:14px;line-height:1.4}
 .contact-row{display:flex;gap:8px;margin-bottom:12px}
 .contact-input{flex:1;padding:14px 16px;border:2px solid var(--BR);border-radius:12px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:700;color:var(--TX);outline:none;background:#fff}
 .contact-input:focus{border-color:var(--P)}
 .contact-pick{background:var(--BG);border:2px solid var(--BR);border-radius:12px;padding:12px 14px;font-size:20px;cursor:pointer;display:none;align-items:center;justify-content:center;flex-shrink:0}
 .contact-send{width:100%;padding:16px;background:var(--P);color:#fff;border:none;border-radius:13px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;cursor:pointer;min-height:54px}
-.contact-cancel{width:100%;padding:12px;background:none;color:var(--MU);border:none;font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:6px}
+.contact-cancel{width:100%;padding:12px;background:none;color:var(--MU);border:none;font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:4px}
 
-/* ════ PLANS MODAL ════ */
+/* ═══ PLANS MODAL ═══ */
 .mbg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:600;display:none;align-items:flex-end}
 .mbg.open{display:flex}
 .msheet{background:#fff;border-radius:24px 24px 0 0;padding:20px 20px 40px;width:100%;max-height:85vh;overflow-y:auto}
@@ -158,7 +162,7 @@ body{font-family:'Nunito',sans-serif;background:var(--BG);color:var(--TX);displa
 .plan-price{font-size:16px;font-weight:900;color:var(--P)}
 .pop-badge{background:var(--A);color:var(--P);font-size:10px;font-weight:900;padding:2px 7px;border-radius:5px;display:block;margin-top:3px;text-align:center}
 
-/* ABOUT MODAL */
+/* ═══ ABOUT MODAL ═══ */
 #modal-about{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:600;display:none;align-items:flex-end}
 #modal-about.open{display:flex}
 .about-sheet{background:#fff;border-radius:24px 24px 0 0;padding:24px 22px 44px;width:100%}
@@ -166,12 +170,12 @@ body{font-family:'Nunito',sans-serif;background:var(--BG);color:var(--TX);displa
 .about-name{font-size:22px;font-weight:900;text-align:center;color:var(--P)}
 .about-ver{font-size:13px;color:var(--MU);text-align:center;margin-bottom:20px}
 .about-block{background:var(--BG);border-radius:14px;padding:16px 18px;margin-bottom:12px}
-.about-block-title{font-size:12px;font-weight:900;color:var(--P);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
-.about-block-text{font-size:14px;font-weight:700;color:var(--TX);line-height:1.5}
-.about-block-text a{color:var(--P)}
+.about-blk-title{font-size:12px;font-weight:900;color:var(--P);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.about-blk-text{font-size:14px;font-weight:700;color:var(--TX);line-height:1.5}
+.about-blk-text a{color:var(--P)}
 .about-close{width:100%;padding:15px;background:var(--P);color:#fff;border:none;border-radius:13px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;cursor:pointer}
 
-/* RESULT MODAL */
+/* ═══ RESULT MODAL ═══ */
 #modal-res{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:700;display:none;align-items:flex-end}
 #modal-res.open{display:flex}
 .res-sheet{background:#fff;border-radius:24px 24px 0 0;padding:20px 20px 38px;width:100%}
@@ -185,7 +189,7 @@ body{font-family:'Nunito',sans-serif;background:var(--BG);color:var(--TX);displa
 .sh-em{font-size:30px}.sh-lbl{font-size:13px;font-weight:800;color:var(--P)}
 .btn-close-res{width:100%;padding:15px;background:var(--P);color:#fff;border:none;border-radius:13px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;cursor:pointer;min-height:54px}
 
-/* MISC */
+/* ═══ MISC ═══ */
 .loading{position:fixed;inset:0;background:rgba(255,255,255,.93);z-index:950;display:none;flex-direction:column;align-items:center;justify-content:center;gap:13px}
 .loading.on{display:flex}
 .spinner{width:44px;height:44px;border:5px solid var(--BR);border-top-color:var(--P);border-radius:50%;animation:spin .8s linear infinite}
@@ -197,6 +201,7 @@ body{font-family:'Nunito',sans-serif;background:var(--BG);color:var(--TX);displa
 </head>
 <body>
 
+<!-- HEADER -->
 <div class="hdr">
   <div class="hdr-logo">📄</div>
   <div><div class="hdr-title">DocuFácilCol</div></div>
@@ -206,13 +211,16 @@ body{font-family:'Nunito',sans-serif;background:var(--BG);color:var(--TX);displa
   </div>
 </div>
 
+<!-- MAIN -->
 <div class="main">
   <div>
     <div class="sec-hdr">
       <div class="sec-lbl">📥 Bandeja de entrada</div>
       <div class="sec-hint">Arrastra al proyecto</div>
     </div>
-    <div class="tray-grid" id="tray"><div class="tray-empty">Toma fotos o extrae páginas — aparecerán aquí</div></div>
+    <div class="tray-scroll" id="tray">
+      <div class="tray-empty">Toma fotos o carga documentos — aparecerán aquí</div>
+    </div>
   </div>
   <div class="proj-list" id="proj-list"></div>
   <button class="add-proj" id="btn-add" onclick="addProject()">
@@ -220,6 +228,7 @@ body{font-family:'Nunito',sans-serif;background:var(--BG);color:var(--TX);displa
   </button>
 </div>
 
+<!-- BOTTOM BAR -->
 <div class="bbar">
   <button class="bb bb-primary" onclick="openCamera()"><span class="bb-icon">📷</span>Cámara</button>
   <button class="bb bb-sec" onclick="openGallery()"><span class="bb-icon">🖼️</span>Galería</button>
@@ -229,27 +238,27 @@ body{font-family:'Nunito',sans-serif;background:var(--BG);color:var(--TX);displa
 
 <button id="fab" onclick="applyOp()"></button>
 
-<!-- ════ CROP ════ -->
+<!-- ═══ CROP ═══ -->
 <div id="modal-crop">
   <div class="crop-hdr">
-    <div class="crop-title">✂️ Recortar documento</div>
-    <div class="crop-sub">Arrastra las esquinas amarillas · Puedes mover el rectángulo completo</div>
+    <div class="crop-title">✂️ Recortar imagen</div>
+    <div class="crop-sub">Arrastra las esquinas amarillas · Arrastra el interior para mover</div>
   </div>
   <div class="crop-area" id="crop-area"><canvas id="crop-cv"></canvas></div>
   <div class="crop-ftr">
-    <button class="crop-btn crop-cancel" onclick="cancelCrop()">Cancelar</button>
-    <button class="crop-btn crop-ok" onclick="applyCrop()">✅ Usar esta área</button>
+    <button class="crop-btn-cancel" onclick="cancelCrop()">Cancelar</button>
+    <button class="crop-btn-ok" onclick="applyCrop()">✅ Confirmar recorte</button>
   </div>
 </div>
 
-<!-- ════ PREVIEW ════ -->
+<!-- ═══ PREVIEW ═══ -->
 <div id="modal-preview">
-  <img id="preview-img" src="" alt="Vista previa">
+  <img id="preview-img" src="" alt="">
   <button class="preview-close" onclick="closePreview()">✕</button>
   <div class="preview-label" id="preview-label"></div>
 </div>
 
-<!-- ════ CONTACT ════ -->
+<!-- ═══ CONTACT ═══ -->
 <div id="modal-contact">
   <div class="contact-sheet">
     <div class="contact-handle"></div>
@@ -258,14 +267,14 @@ body{font-family:'Nunito',sans-serif;background:var(--BG);color:var(--TX);displa
     <div class="contact-note" id="contact-note"></div>
     <div class="contact-row">
       <input class="contact-input" id="contact-input" type="text" placeholder="">
-      <button class="contact-pick" id="btn-contacts" onclick="pickContact()" title="Elegir contacto">📋</button>
+      <button class="contact-pick" id="btn-contacts" onclick="pickContact()">📋</button>
     </div>
     <button class="contact-send" onclick="doSend()">Continuar →</button>
     <button class="contact-cancel" onclick="closeContact()">Cancelar</button>
   </div>
 </div>
 
-<!-- ════ PLANS ════ -->
+<!-- ═══ PLANS ═══ -->
 <div class="mbg" id="modal-plans">
   <div class="msheet">
     <div class="mhandle"></div>
@@ -280,32 +289,32 @@ body{font-family:'Nunito',sans-serif;background:var(--BG);color:var(--TX);displa
   </div>
 </div>
 
-<!-- ════ ABOUT ════ -->
+<!-- ═══ ABOUT ═══ -->
 <div id="modal-about">
   <div class="about-sheet">
     <div class="about-logo">📄</div>
     <div class="about-name">DocuFácilCol</div>
     <div class="about-ver">Versión 1.0 · Hecho con ❤️ en Colombia</div>
     <div class="about-block">
-      <div class="about-block-title">👨‍💻 Desarrollador</div>
-      <div class="about-block-text">Jesús Castillo<br>Desarrollado con <strong>Claude AI</strong></div>
+      <div class="about-blk-title">👨‍💻 Desarrollador</div>
+      <div class="about-blk-text">Jesús Castillo<br>Desarrollado con <strong>Claude AI</strong></div>
     </div>
     <div class="about-block">
-      <div class="about-block-title">📬 Contacto</div>
-      <div class="about-block-text"><a href="mailto:Jesuscs049@gmail.com">Jesuscs049@gmail.com</a><br><span style="font-size:12px;color:var(--MU)">Sugerencias, errores o consultas</span></div>
+      <div class="about-blk-title">📬 Contacto</div>
+      <div class="about-blk-text"><a href="mailto:Jesuscs049@gmail.com">Jesuscs049@gmail.com</a><br><span style="font-size:12px;color:var(--MU)">Sugerencias, errores o consultas</span></div>
     </div>
     <div class="about-block">
-      <div class="about-block-title">ℹ️ Acerca de</div>
-      <div class="about-block-text">Herramienta gratuita para gestionar documentos en trámites colombianos. Sin registro, sin complicaciones.</div>
+      <div class="about-blk-title">ℹ️ Acerca de</div>
+      <div class="about-blk-text">Herramienta gratuita para gestionar documentos en trámites colombianos. Sin registro, sin complicaciones.</div>
     </div>
     <button class="about-close" onclick="closeAbout()">Cerrar</button>
   </div>
 </div>
 
-<!-- ════ RESULT ════ -->
+<!-- ═══ RESULT ═══ -->
 <div id="modal-res">
   <div class="res-sheet">
-    <div class="res-top"><div class="res-em">🎉</div><div class="res-name" id="res-name">documento.pdf</div><div class="res-meta" id="res-meta"></div></div>
+    <div class="res-top"><div class="res-em">🎉</div><div class="res-name" id="res-name">doc.pdf</div><div class="res-meta" id="res-meta"></div></div>
     <div class="share-grid">
       <div class="sh-btn" onclick="initShare('wa')"><div class="sh-em">💬</div><div class="sh-lbl">WhatsApp</div></div>
       <div class="sh-btn" onclick="initShare('gmail')"><div class="sh-em">📧</div><div class="sh-lbl">Gmail</div></div>
@@ -327,9 +336,9 @@ body{font-family:'Nunito',sans-serif;background:var(--BG);color:var(--TX);displa
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-// ═══════════════════════════════════════════════════
-//  STATE
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
 let _uid=0;
 const mkId=()=>'i'+(++_uid)+'_'+Date.now();
 
@@ -340,122 +349,66 @@ const APP={
   editOp:'reorder',
   resBuf:null,resName:'',
   shareMode:null,
-  // crop state
-  cImg:null,cRes:null,cRej:null,
+  // crop
+  cImg:null,cRes:null,cRej:null,cOnApply:null,
   cRect:{x:.04,y:.04,w:.92,h:.92},
   cHandle:null,cLP:{x:0,y:0},
   cW:0,cH:0,cCx:null,
 };
 
-// ═══════════════════════════════════════════════════
-//  INDEXEDDB PERSISTENCE
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// INDEXEDDB PERSISTENCE
+// ═══════════════════════════════════════════════
 const IDB={
   db:null,
-  open(){
-    return new Promise((res,rej)=>{
-      const rq=indexedDB.open('docufacilcol_v1',1);
-      rq.onupgradeneeded=e=>{
-        const db=e.target.result;
-        if(!db.objectStoreNames.contains('state'))db.createObjectStore('state',{keyPath:'id'});
-      };
-      rq.onsuccess=e=>{this.db=e.target.result;res()};
-      rq.onerror=()=>rej(rq.error);
-    });
-  },
-  set(key,value){
-    return new Promise((res,rej)=>{
-      if(!this.db){res();return}
-      const tx=this.db.transaction('state','readwrite');
-      tx.objectStore('state').put({id:key,value});
-      tx.oncomplete=res;tx.onerror=()=>rej(tx.error);
-    });
-  },
-  get(key){
-    return new Promise((res,rej)=>{
-      if(!this.db){res(null);return}
-      const tx=this.db.transaction('state','readonly');
-      const rq=tx.objectStore('state').get(key);
-      rq.onsuccess=()=>res(rq.result?rq.result.value:null);
-      rq.onerror=()=>rej(rq.error);
-    });
-  },
-  del(key){
-    return new Promise((res,rej)=>{
-      if(!this.db){res();return}
-      const tx=this.db.transaction('state','readwrite');
-      tx.objectStore('state').delete(key);
-      tx.oncomplete=res;tx.onerror=()=>rej(tx.error);
-    });
-  }
+  open(){return new Promise((res,rej)=>{const rq=indexedDB.open('dfc2',1);rq.onupgradeneeded=e=>{if(!e.target.result.objectStoreNames.contains('s'))e.target.result.createObjectStore('s',{keyPath:'k'})};rq.onsuccess=e=>{this.db=e.target.result;res()};rq.onerror=()=>rej(rq.error)})},
+  set(k,v){return new Promise((res,rej)=>{if(!this.db){res();return}const tx=this.db.transaction('s','readwrite');tx.objectStore('s').put({k,v});tx.oncomplete=res;tx.onerror=()=>rej(tx.error)})},
+  get(k){return new Promise((res,rej)=>{if(!this.db){res(null);return}const tx=this.db.transaction('s','readonly');const rq=tx.objectStore('s').get(k);rq.onsuccess=()=>res(rq.result?.v??null);rq.onerror=()=>rej(rq.error)})},
+  del(k){return new Promise((res,rej)=>{if(!this.db){res();return}const tx=this.db.transaction('s','readwrite');tx.objectStore('s').delete(k);tx.oncomplete=res;tx.onerror=()=>rej(tx.error)})},
 };
 
-const INACTIVE_MS=60*60*1000; // 1 hour
+const IDLE_MS=60*60*1000; // 1 hour
+let _savePending=false;
+function scheduleSave(){if(_savePending)return;_savePending=true;setTimeout(()=>{_savePending=false;_doSave()},800)}
 
-async function saveState(){
+async function _doSave(){
   try{
-    const ts=Date.now();
-    // Serialize projects: convert Uint8Array → Array for JSON
-    const serProj=APP.projects.map(p=>({
-      ...p,
-      pages:p.pages.map(pg=>({
-        ...pg,
-        data:pg.type==='pdf-page'&&pg.data instanceof Uint8Array?Array.from(pg.data):pg.data
-      }))
+    const ser=arr=>arr.map(obj=>({
+      ...obj,
+      data:obj.type==='pdf-page'&&obj.data instanceof Uint8Array?Array.from(obj.data):obj.data,
+      pages:obj.pages?.map(pg=>({...pg,data:pg.type==='pdf-page'&&pg.data instanceof Uint8Array?Array.from(pg.data):pg.data}))
     }));
-    const serTray=APP.tray.map(item=>({
-      ...item,
-      data:item.type==='pdf-page'&&item.data instanceof Uint8Array?Array.from(item.data):item.data
-    }));
-    await IDB.set('projects',serProj);
-    await IDB.set('tray',serTray);
-    await IDB.set('ts',ts);
-    localStorage.setItem('dfc_ts',ts);
-  }catch(e){console.warn('save err',e)}
+    await IDB.set('proj',ser(APP.projects));
+    await IDB.set('tray',ser(APP.tray));
+    await IDB.set('ts',Date.now());
+    localStorage.setItem('dfc_ts',Date.now());
+  }catch(e){console.warn('save',e)}
 }
 
 async function loadState(){
   try{
-    const savedTs=parseInt(localStorage.getItem('dfc_ts')||'0');
-    if(!savedTs||Date.now()-savedTs>INACTIVE_MS){
-      // Expired — clear
-      await IDB.del('projects');await IDB.del('tray');await IDB.del('ts');
-      return;
-    }
-    const proj=await IDB.get('projects');
-    const tray=await IDB.get('tray');
-    if(proj){
-      APP.projects=proj.map(p=>({
-        ...p,
-        pages:p.pages.map(pg=>({
-          ...pg,sel:false,
-          data:pg.type==='pdf-page'&&Array.isArray(pg.data)?new Uint8Array(pg.data):pg.data
-        }))
-      }));
-    }
-    if(tray){
-      APP.tray=tray.map(item=>({
-        ...item,
-        data:item.type==='pdf-page'&&Array.isArray(item.data)?new Uint8Array(item.data):item.data
-      }));
-    }
-    // Restore uid counter
-    let maxUid=0;
-    [...APP.projects.flatMap(p=>p.pages),...APP.tray].forEach(item=>{
-      const n=parseInt((item.id||'').replace(/^i(\d+)_.*/,'$1')||'0');
-      if(n>maxUid)maxUid=n;
-    });
-    _uid=maxUid+1;
-  }catch(e){console.warn('load err',e)}
+    const ts=parseInt(localStorage.getItem('dfc_ts')||'0');
+    if(!ts||Date.now()-ts>IDLE_MS){await IDB.del('proj');await IDB.del('tray');await IDB.del('ts');return}
+    const deser=arr=>(arr||[]).map(obj=>({
+      ...obj,
+      sel:false,
+      data:obj.type==='pdf-page'&&Array.isArray(obj.data)?new Uint8Array(obj.data):obj.data,
+      pages:obj.pages?.map(pg=>({...pg,sel:false,data:pg.type==='pdf-page'&&Array.isArray(pg.data)?new Uint8Array(pg.data):pg.data}))
+    }));
+    const p=await IDB.get('proj');const t=await IDB.get('tray');
+    if(p)APP.projects=deser(p);
+    if(t)APP.tray=deser(t);
+    let mx=0;
+    [...APP.projects.flatMap(p=>p.pages||[]),...APP.tray].forEach(item=>{const n=parseInt((item.id||'').replace(/^i(\d+)_.*/,'$1')||0);if(n>mx)mx=n});
+    _uid=mx+1;
+  }catch(e){console.warn('load',e)}
 }
 
-// Update activity timestamp on any interaction
-document.addEventListener('touchstart',()=>localStorage.setItem('dfc_ts',Date.now()),{passive:true});
-document.addEventListener('click',()=>localStorage.setItem('dfc_ts',Date.now()),{passive:true});
+['click','touchstart'].forEach(ev=>document.addEventListener(ev,()=>localStorage.setItem('dfc_ts',Date.now()),{passive:true}));
 
-// ═══════════════════════════════════════════════════
-//  FREEMIUM
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// FREEMIUM
+// ═══════════════════════════════════════════════
 const getU=()=>{try{const d=JSON.parse(localStorage.getItem('dfc_u')||'{}'),m=new Date().toISOString().slice(0,7);return d.month===m?d:{month:m,count:0}}catch{return{month:new Date().toISOString().slice(0,7),count:0}}};
 const saveU=d=>{try{localStorage.setItem('dfc_u',JSON.stringify(d))}catch{}};
 const getPlan=()=>{try{const p=localStorage.getItem('dfc_p'),e=localStorage.getItem('dfc_e');if(!p)return null;if(p==='lifetime')return'lifetime';return(e&&new Date(e)>new Date())?p:null}catch{return null}};
@@ -465,34 +418,33 @@ const remaining=()=>{const p=getPlan();return p?'∞':Math.max(0,5-getU().count)
 const updateBadge=()=>{const r=remaining();document.getElementById('badge').textContent=r==='∞'?'✨ Ilimitado':`⚡ ${r} uso${r!==1?'s':''}`};
 const isPremium=()=>!!getPlan();
 
-// ═══════════════════════════════════════════════════
-//  UI HELPERS
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// UI
+// ═══════════════════════════════════════════════
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 function showLoad(m='Procesando...'){document.getElementById('load-msg').textContent=m;document.getElementById('loading').classList.add('on')}
 const hideLoad=()=>document.getElementById('loading').classList.remove('on');
-let _toastTimer;
-function toast(msg,ms=3000){clearTimeout(_toastTimer);const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');_toastTimer=setTimeout(()=>t.classList.remove('on'),ms)}
+let _tt;function toast(msg,ms=3000){clearTimeout(_tt);const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');_tt=setTimeout(()=>t.classList.remove('on'),ms)}
 
-// ═══════════════════════════════════════════════════
-//  PROJECTS
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// PROJECTS
+// ═══════════════════════════════════════════════
 function addProject(name){
   if(APP.projects.length>=3){toast('Máximo 3 proyectos a la vez');return null}
   const p={id:mkId(),name:name||'Proyecto '+(APP.projects.length+1),pages:[]};
-  APP.projects.push(p);render();saveState();return p;
+  APP.projects.push(p);render();scheduleSave();return p;
 }
 function delProject(id){
   if(!confirm('¿Eliminar este proyecto?'))return;
   APP.projects=APP.projects.filter(p=>p.id!==id);
   if(APP.editProjId===id){APP.editProjId=null;hideFab()}
-  render();saveState();
+  render();scheduleSave();
 }
-function setName(id,v){const p=APP.projects.find(x=>x.id===id);if(p&&v.trim()){p.name=v.trim();saveState()}}
+function setName(id,v){const p=APP.projects.find(x=>x.id===id);if(p&&v.trim()){p.name=v.trim();scheduleSave()}}
 
-// ═══════════════════════════════════════════════════
-//  RENDER
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════
 function render(){
   renderTray();
   const list=document.getElementById('proj-list');list.innerHTML='';
@@ -500,45 +452,73 @@ function render(){
   document.getElementById('btn-add').disabled=APP.projects.length>=3;
 }
 
-/* ─── THUMB CARD BUILDER ─── */
-function mkThumbCard({thumb,preview,label,onView,onRemove,onSelect,isSelected,showNum,numText,editOp}){
-  const wrap=document.createElement('div');
-  wrap.className='thumb-card'+(isSelected?' sel':'');
-
-  const img=document.createElement('img');img.src=thumb;img.alt='';img.draggable=false;wrap.appendChild(img);
-
-  // TOP band — always visible — "Ver"
-  const top=document.createElement('div');top.className='thumb-top';
-  top.innerHTML='<span class="thumb-top-icon">👁</span> Ver';
-  top.onclick=e=>{e.stopPropagation();if(onView)onView()};
-  wrap.appendChild(top);
-
-  // Page number (above bottom band)
-  if(showNum){
-    const num=document.createElement('div');num.className='thumb-num';num.textContent=numText||'';
-    wrap.appendChild(num);
+// ─── TRAY RENDER ─────────────────────────────
+function renderTray(){
+  const t=document.getElementById('tray');t.innerHTML='';
+  if(!APP.tray.length){
+    t.innerHTML='<div class="tray-empty">Toma fotos o carga documentos — aparecerán aquí</div>';
+    return;
   }
+  APP.tray.forEach(item=>{
+    const card=document.createElement('div');card.className='tray-card';
 
-  // BOTTOM band
-  if(onRemove){
-    const bot=document.createElement('div');bot.className='thumb-bot thumb-bot-red';
-    bot.innerHTML='✕ Quitar';
-    bot.onclick=e=>{e.stopPropagation();if(onRemove)onRemove()};
-    wrap.appendChild(bot);
-  } else if(editOp==='delete'&&!isSelected){
-    const bot=document.createElement('div');bot.className='thumb-bot thumb-bot-red';
-    bot.style.opacity='.7';bot.innerHTML='🗑️ Toca';wrap.appendChild(bot);
-  } else if(editOp==='extract'&&!isSelected){
-    const bot=document.createElement('div');bot.className='thumb-bot thumb-bot-blue';
-    bot.style.opacity='.7';bot.innerHTML='📤 Toca';wrap.appendChild(bot);
-  }
+    // Thumbnail image — higher res so it's readable
+    const img=document.createElement('img');
+    img.src=item.thumb;img.alt=item.label||'';img.draggable=false;
+    card.appendChild(img);
 
-  // Click for select (in edit mode)
-  if(onSelect){wrap.onclick=()=>onSelect(wrap)}
+    // Label
+    const lbl=document.createElement('div');lbl.className='tray-card-lbl';lbl.textContent=item.label||'Archivo';
+    card.appendChild(lbl);
 
-  return wrap;
+    // Action buttons row
+    const acts=document.createElement('div');acts.className='tray-actions';
+
+    const btnVer=mkTrayBtn('👁','Ver','view-btn-t',()=>openPreview(item.preview||item.thumb,item.label));
+    const btnDel=mkTrayBtn('✕','Quitar','del',()=>{APP.tray=APP.tray.filter(x=>x.id!==item.id);render();scheduleSave()});
+    const btnCrop=mkTrayBtn('✂️','Recortar','crop-btn-t',()=>{
+      // Only available for image items
+      if(item.type!=='img'){toast('Solo se pueden recortar imágenes');return}
+      openCropForTrayItem(item);
+    });
+    // Disable crop for pdf pages
+    if(item.type!=='img'){btnCrop.style.opacity='.3';btnCrop.style.pointerEvents='none'}
+
+    acts.appendChild(btnVer);acts.appendChild(btnDel);acts.appendChild(btnCrop);
+    card.appendChild(acts);
+
+    // Drag support
+    card.setAttribute('draggable',true);
+    card.addEventListener('dragstart',e=>{e.dataTransfer.setData('tray-id',item.id);e.dataTransfer.effectAllowed='copy'});
+    card.addEventListener('touchstart',e=>tDragStart(e,item.id),{passive:true});
+    card.addEventListener('touchmove',tDragMove,{passive:false});
+    card.addEventListener('touchend',tDragEnd);
+
+    t.appendChild(card);
+  });
 }
 
+function mkTrayBtn(icon,label,cls,fn){
+  const b=document.createElement('button');
+  b.className=`tray-btn ${cls}`;
+  b.innerHTML=`<span class="tray-btn-icon">${icon}</span>${label}`;
+  b.onclick=e=>{e.stopPropagation();fn()};
+  return b;
+}
+
+// Open crop for an existing tray item and replace it after
+async function openCropForTrayItem(item){
+  try{
+    const cropped=await showCrop(item.preview||item.data);
+    showLoad('Actualizando imagen...');
+    const newThumb=await mkThumb(cropped,160,200);
+    const newPrev=await mkThumb(cropped,700,900);
+    item.thumb=newThumb;item.preview=newPrev;item.data=cropped;
+    hideLoad();render();scheduleSave();toast('✅ Imagen recortada');
+  }catch(e){hideLoad();if(e!=='cancelled')toast('❌ Error al recortar')}
+}
+
+// ─── PROJECT CARD ─────────────────────────────
 function mkCard(p){
   const card=document.createElement('div');
   card.className='proj-card'+(APP.editProjId===p.id?' editing':'');
@@ -550,14 +530,13 @@ function mkCard(p){
       onblur="setName('${p.id}',this.value)"
       onkeydown="if(event.key==='Enter')this.blur()">
     <div class="pc-acts">
-      <button class="ic-btn" onclick="exportProj('${p.id}')">📤</button>
-      <button class="ic-btn" onclick="toggleEdit('${p.id}')">${APP.editProjId===p.id?'✕':'✏️'}</button>
-      <button class="ic-btn" onclick="delProject('${p.id}')">🗑️</button>
+      <button class="ic-btn" title="Exportar" onclick="exportProj('${p.id}')">📤</button>
+      <button class="ic-btn" title="Editar" onclick="toggleEdit('${p.id}')">${APP.editProjId===p.id?'✕':'✏️'}</button>
+      <button class="ic-btn" title="Eliminar" onclick="delProject('${p.id}')">🗑️</button>
     </div>`;
   card.appendChild(head);
 
   const grid=document.createElement('div');grid.className='pc-pages';grid.dataset.pid=p.id;
-  // drop zone
   grid.addEventListener('dragover',e=>{e.preventDefault();card.classList.add('drop-active')});
   grid.addEventListener('dragleave',e=>{if(!card.contains(e.relatedTarget))card.classList.remove('drop-active')});
   grid.addEventListener('drop',e=>{e.preventDefault();card.classList.remove('drop-active');const id=e.dataTransfer.getData('tray-id');if(id)dropToProj(id,p.id)});
@@ -566,60 +545,57 @@ function mkCard(p){
     grid.innerHTML='<div class="pc-empty-drop"><span style="font-size:26px">📂</span>Arrastra aquí fotos o páginas</div>';
   } else {
     p.pages.forEach((pg,i)=>{
-      const cell=document.createElement('div');cell.className='pc-page-cell';
+      const cell=document.createElement('div');cell.className='pc-page-cell'+(pg.sel?' sel':'');
+      const img=document.createElement('img');img.src=pg.thumb;img.alt='';img.draggable=false;
+      const num=document.createElement('div');num.className='pc-page-num';num.textContent=i+1;
+      // Eye btn
+      const eye=document.createElement('button');eye.className='pc-page-eye';eye.textContent='👁';eye.title='Ver';
+      eye.onclick=e=>{e.stopPropagation();openPreview(pg.preview||pg.thumb,'Pág.'+(i+1)+' — '+p.name)};
+      cell.appendChild(img);cell.appendChild(num);cell.appendChild(eye);
+
+      // select in edit mode
       const isEditing=APP.editProjId===p.id;
-      const thumb=mkThumbCard({
-        thumb:pg.thumb,
-        preview:pg.preview||pg.thumb,
-        isSelected:pg.sel,
-        showNum:true,
-        numText:i+1,
-        editOp:isEditing?APP.editOp:null,
-        onView:()=>openPreview(pg.preview||pg.thumb,'Pág. '+(i+1)+' — '+p.name),
-        onSelect:isEditing&&APP.editOp!=='reorder'?el=>{pg.sel=!pg.sel;el.classList.toggle('sel',pg.sel);updateFab()}:null,
-      });
-      thumb.dataset.idx=i;
+      if(isEditing&&APP.editOp!=='reorder'){
+        cell.onclick=()=>{pg.sel=!pg.sel;cell.classList.toggle('sel',pg.sel);updateFab()};
+      }
       // reorder drag
       if(isEditing&&APP.editOp==='reorder'){
-        thumb.setAttribute('draggable',true);
-        thumb.addEventListener('dragstart',e=>{e.dataTransfer.setData('reorder',JSON.stringify({pid:p.id,idx:i}));setTimeout(()=>thumb.style.opacity='.4',0)});
-        thumb.addEventListener('dragend',()=>thumb.style.opacity='');
-        thumb.addEventListener('dragover',e=>{if(e.dataTransfer.types.includes('reorder')){e.preventDefault();thumb.style.outline='3px solid var(--A)'}});
-        thumb.addEventListener('dragleave',()=>thumb.style.outline='');
-        thumb.addEventListener('drop',e=>{
-          thumb.style.outline='';
+        cell.setAttribute('draggable',true);
+        cell.addEventListener('dragstart',e=>{e.dataTransfer.setData('reorder',JSON.stringify({pid:p.id,idx:i}));setTimeout(()=>cell.style.opacity='.4',0)});
+        cell.addEventListener('dragend',()=>cell.style.opacity='');
+        cell.addEventListener('dragover',e=>{if(e.dataTransfer.types.includes('reorder')){e.preventDefault();cell.style.outline='3px solid var(--A)'}});
+        cell.addEventListener('dragleave',()=>cell.style.outline='');
+        cell.addEventListener('drop',e=>{
+          cell.style.outline='';
           if(!e.dataTransfer.types.includes('reorder'))return;
           e.preventDefault();
           const d=JSON.parse(e.dataTransfer.getData('reorder'));
           if(d.pid!==p.id)return;
           const proj=APP.projects.find(x=>x.id===p.id);
           const[m]=proj.pages.splice(d.idx,1);proj.pages.splice(i,0,m);
-          render();saveState();
+          render();scheduleSave();
         });
         // touch reorder
         let tSt=null;
-        thumb.addEventListener('touchstart',e=>{tSt={pid:p.id,idx:i,el:thumb};thumb.style.opacity='.5'},{passive:true});
-        thumb.addEventListener('touchmove',e=>{
+        cell.addEventListener('touchstart',e=>{tSt={pid:p.id,idx:i};cell.style.opacity='.5'},{passive:true});
+        cell.addEventListener('touchmove',e=>{
           if(!tSt)return;e.preventDefault();const t=e.touches[0];
-          document.querySelectorAll(`.pc-pages[data-pid="${p.id}"] .thumb-card`).forEach((el,j)=>{
+          document.querySelectorAll(`.pc-pages[data-pid="${p.id}"] .pc-page-cell`).forEach((el,j)=>{
             const r=el.getBoundingClientRect();
             el.style.outline=(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom&&j!==tSt.idx)?'3px solid var(--A)':'';
           });
         },{passive:false});
-        thumb.addEventListener('touchend',e=>{
-          if(!tSt)return;thumb.style.opacity='';const t=e.changedTouches[0];let ti=null;
-          document.querySelectorAll(`.pc-pages[data-pid="${p.id}"] .thumb-card`).forEach((el,j)=>{
+        cell.addEventListener('touchend',e=>{
+          if(!tSt)return;cell.style.opacity='';const t=e.changedTouches[0];let ti=null;
+          document.querySelectorAll(`.pc-pages[data-pid="${p.id}"] .pc-page-cell`).forEach((el,j)=>{
             el.style.outline='';const r=el.getBoundingClientRect();
             if(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom)ti=j;
           });
-          if(ti!==null&&ti!==tSt.idx){
-            const proj=APP.projects.find(x=>x.id===p.id);
-            const[m]=proj.pages.splice(tSt.idx,1);proj.pages.splice(ti,0,m);render();saveState();
-          }
+          if(ti!==null&&ti!==tSt.idx){const proj=APP.projects.find(x=>x.id===p.id);const[m]=proj.pages.splice(tSt.idx,1);proj.pages.splice(ti,0,m);render();scheduleSave()}
           tSt=null;
         });
       }
-      cell.appendChild(thumb);grid.appendChild(cell);
+      grid.appendChild(cell);
     });
   }
   card.appendChild(grid);
@@ -631,46 +607,26 @@ function mkEditTb(p){
   const tb=document.createElement('div');tb.className='edit-tb';
   const info={
     reorder:{icon:'↕️',title:'Reordenar páginas',text:'Mantén presionada una página y arrástrala para cambiar su posición'},
-    delete:{icon:'🗑️',title:'Eliminar páginas',text:'Toca las páginas que deseas eliminar del proyecto, luego confirma con el botón que aparece'},
+    delete:{icon:'🗑️',title:'Eliminar páginas',text:'Toca las páginas que deseas eliminar del proyecto. Luego confirma con el botón que aparece'},
     extract:{icon:'📤',title:'Extraer páginas a bandeja',text:'Toca las páginas que quieres copiar a la bandeja. La página queda también en el proyecto'},
   }[APP.editOp];
-  tb.innerHTML=`<div class="op-banner">
-    <span class="op-banner-icon">${info.icon}</span>
-    <div><div class="op-banner-title">${info.title}</div><div class="op-banner-text">${info.text}</div></div>
-  </div>
-  <div class="op-tabs">
-    ${['reorder','delete','extract'].map(op=>`<button class="op-tab${APP.editOp===op?' active':''}" onclick="setOp('${op}')">${{reorder:'↕️ Reordenar',delete:'🗑️ Eliminar',extract:'📤 Extraer'}[op]}</button>`).join('')}
-  </div>`;
+  tb.innerHTML=`
+    <div class="op-banner">
+      <span class="op-banner-icon">${info.icon}</span>
+      <div><div class="op-banner-title">${info.title}</div><div class="op-banner-text">${info.text}</div></div>
+    </div>
+    <div class="op-tabs">
+      ${['reorder','delete','extract'].map(op=>`
+        <button class="op-tab${APP.editOp===op?' active':''}" onclick="setOp('${op}')">
+          ${{reorder:'↕️ Reordenar',delete:'🗑️ Eliminar',extract:'📤 Extraer'}[op]}
+        </button>`).join('')}
+    </div>`;
   return tb;
 }
 
-function renderTray(){
-  const t=document.getElementById('tray');t.innerHTML='';
-  if(!APP.tray.length){t.innerHTML='<div class="tray-empty">Toma fotos o extrae páginas — aparecerán aquí para arrastrar</div>';return}
-  APP.tray.forEach(item=>{
-    const wrap=document.createElement('div');wrap.className='tray-item';
-    const card=mkThumbCard({
-      thumb:item.thumb,preview:item.preview||item.thumb,
-      label:item.label,
-      onView:()=>openPreview(item.preview||item.thumb,item.label),
-      onRemove:()=>{APP.tray=APP.tray.filter(x=>x.id!==item.id);render();saveState()},
-    });
-    card.setAttribute('draggable',true);
-    card.addEventListener('dragstart',e=>e.dataTransfer.setData('tray-id',item.id));
-    card.addEventListener('touchstart',e=>tDragStart(e,item.id),{passive:true});
-    card.addEventListener('touchmove',tDragMove,{passive:false});
-    card.addEventListener('touchend',tDragEnd);
-    // Label below
-    const lbl=document.createElement('div');lbl.style.cssText='font-size:10px;font-weight:800;text-align:center;margin-top:3px;color:var(--MU);overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
-    lbl.textContent=item.label;
-    wrap.appendChild(card);wrap.appendChild(lbl);
-    t.appendChild(wrap);
-  });
-}
-
-// ═══════════════════════════════════════════════════
-//  TOUCH DRAG TRAY→PROJECT
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// TOUCH DRAG TRAY → PROJECT
+// ═══════════════════════════════════════════════
 let TD={on:false,id:null};
 function tDragStart(e,id){TD={on:true,id};const t=e.touches[0];mkGhost(id,t.clientX,t.clientY)}
 function tDragMove(e){
@@ -683,30 +639,32 @@ function tDragEnd(e){
   rmGhost();if(tgt)dropToProj(TD.id,tgt);TD={on:false,id:null};
 }
 function mkGhost(id,x,y){rmGhost();const item=APP.tray.find(i=>i.id===id);if(!item)return;const g=document.createElement('div');g.id='drag-ghost';g.innerHTML=`<img src="${item.thumb}">`;document.body.appendChild(g);moveGhost(x,y)}
-function moveGhost(x,y){const g=document.getElementById('drag-ghost');if(g){g.style.left=(x-32)+'px';g.style.top=(y-40)+'px'}}
+function moveGhost(x,y){const g=document.getElementById('drag-ghost');if(g){g.style.left=(x-36)+'px';g.style.top=(y-45)+'px'}}
 function rmGhost(){const g=document.getElementById('drag-ghost');if(g)g.remove()}
+
 function dropToProj(itemId,projId){
   const item=APP.tray.find(x=>x.id===itemId);const proj=APP.projects.find(x=>x.id===projId);
   if(!item||!proj)return;
   proj.pages.push({id:mkId(),thumb:item.thumb,preview:item.preview||item.thumb,data:item.data,type:item.type,sel:false});
-  APP.tray=APP.tray.filter(x=>x.id!==itemId);render();saveState();toast('✅ Página agregada al proyecto');
+  APP.tray=APP.tray.filter(x=>x.id!==itemId);
+  render();scheduleSave();toast('✅ Página agregada al proyecto');
 }
 
-// ═══════════════════════════════════════════════════
-//  EDIT OPS
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// EDIT OPS
+// ═══════════════════════════════════════════════
 function toggleEdit(id){
   if(APP.editProjId===id){APP.editProjId=null;hideFab();clrSel()}
   else{APP.editProjId=id;APP.editOp='reorder';clrSel()}
   render();
 }
-function clrSel(){APP.projects.forEach(p=>p.pages.forEach(pg=>pg.sel=false))}
+function clrSel(){APP.projects.forEach(p=>p.pages&&p.pages.forEach(pg=>pg.sel=false))}
 function setOp(op){APP.editOp=op;clrSel();hideFab();render()}
 function updateFab(){
   const proj=APP.projects.find(p=>p.id===APP.editProjId);if(!proj){hideFab();return}
   const sel=proj.pages.filter(pg=>pg.sel);const fab=document.getElementById('fab');
   if(!sel.length){hideFab();return}
-  const lbl={delete:`🗑️ Eliminar ${sel.length} pág${sel.length>1?'s':''}`,extract:`📤 Extraer ${sel.length} pág${sel.length>1?'s':''} a bandeja`};
+  const lbl={delete:`🗑️ Eliminar ${sel.length} pág${sel.length>1?'s':''}`,extract:`📤 Extraer ${sel.length} pág${sel.length>1?'s':''}`};
   fab.textContent=lbl[APP.editOp]||'';fab.classList.add('on');
 }
 const hideFab=()=>document.getElementById('fab').classList.remove('on');
@@ -717,16 +675,15 @@ async function applyOp(){
     proj.pages=proj.pages.filter(pg=>!pg.sel);
     toast(`🗑️ ${sel.length} página${sel.length>1?'s':''} eliminada${sel.length>1?'s':''}`);
   } else {
-    // COPY to tray — keep in project
     sel.forEach(pg=>APP.tray.push({id:mkId(),thumb:pg.thumb,preview:pg.preview||pg.thumb,data:pg.data,type:pg.type,label:'Extraída'}));
-    toast(`📥 ${sel.length} pág${sel.length>1?'s':''} copiada${sel.length>1?'s':''} a la bandeja`);
+    toast(`📥 Copiada${sel.length>1?'s':''} a la bandeja`);
   }
-  clrSel();hideFab();render();saveState();
+  clrSel();hideFab();render();scheduleSave();
 }
 
-// ═══════════════════════════════════════════════════
-//  CAMERA / FILES
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// CAMERA / FILES — image goes to tray immediately, no forced crop
+// ═══════════════════════════════════════════════
 const openCamera=()=>document.getElementById('in-cam').click();
 const openGallery=()=>document.getElementById('in-gal').click();
 const openPdf=()=>document.getElementById('in-pdf').click();
@@ -735,28 +692,29 @@ async function onCamFile(e){
   const f=e.target.files[0];e.target.value='';if(!f)return;
   showLoad('Cargando imagen...');
   try{
-    const d=await fixOri(f);hideLoad();
-    const c=await showCrop(d);
-    const th=await mkThumb(c,72,90);
-    const prev=await mkThumb(c,600,800);
-    APP.tray.push({id:mkId(),thumb:th,preview:prev,data:c,type:'img',label:'Foto'});
-    render();saveState();toast('📷 Foto lista en la bandeja');
-  }catch(err){hideLoad();if(err!=='cancelled')toast('❌ Error al cargar imagen')}
+    const data=await fixOri(f);
+    const thumb=await mkThumb(data,160,200);    // larger thumb so it's readable
+    const preview=await mkThumb(data,700,900);  // high-res for viewer
+    APP.tray.push({id:mkId(),thumb,preview,data,type:'img',label:'Foto'});
+    hideLoad();render();scheduleSave();
+    toast('📷 Foto en la bandeja — toca ✂️ para recortar');
+  }catch(err){hideLoad();toast('❌ Error al cargar imagen')}
 }
+
 async function onGalFiles(e){
-  const files=Array.from(e.target.files);e.target.value='';
-  for(const f of files){
-    showLoad(`Imagen ${files.indexOf(f)+1}/${files.length}...`);
+  const files=Array.from(e.target.files);e.target.value='';if(!files.length)return;
+  for(let i=0;i<files.length;i++){
+    showLoad(`Cargando imagen ${i+1}/${files.length}...`);
     try{
-      const d=await fixOri(f);hideLoad();
-      const c=await showCrop(d);
-      const th=await mkThumb(c,72,90);
-      const prev=await mkThumb(c,600,800);
-      APP.tray.push({id:mkId(),thumb:th,preview:prev,data:c,type:'img',label:'Foto'});
-    }catch(err){hideLoad();if(err==='cancelled')break}
+      const data=await fixOri(files[i]);
+      const thumb=await mkThumb(data,160,200);
+      const preview=await mkThumb(data,700,900);
+      APP.tray.push({id:mkId(),thumb,preview,data,type:'img',label:`Foto ${i+1}`});
+    }catch(err){console.warn(err)}
   }
-  render();saveState();if(APP.tray.length)toast('✅ Fotos listas en la bandeja');
+  hideLoad();render();scheduleSave();toast(`✅ ${files.length} foto${files.length>1?'s':''} en la bandeja`);
 }
+
 async function onPdfFile(e){
   const f=e.target.files[0];e.target.value='';if(!f)return;
   if(APP.projects.length>=3){toast('Máximo 3 proyectos. Elimina uno primero.');return}
@@ -767,32 +725,32 @@ async function onPdfFile(e){
     const n=pdfDoc.numPages;
     const proj=addProject(f.name.replace(/\.pdf$/i,'').slice(0,25));if(!proj){hideLoad();return}
     for(let i=1;i<=n;i++){
-      showLoad(`Procesando pág. ${i} / ${n}...`);
+      showLoad(`Procesando pág. ${i}/${n}...`);
       const page=await pdfDoc.getPage(i);
-      // Thumb at low res
-      const vpLow=page.getViewport({scale:.5});
-      const sc=document.getElementById('sc');sc.width=vpLow.width;sc.height=vpLow.height;
-      await page.render({canvasContext:sc.getContext('2d'),viewport:vpLow}).promise;
-      const thumb=sc.toDataURL('image/jpeg',.72);
-      // Preview at mid res
-      const vpMid=page.getViewport({scale:1.5});
-      sc.width=vpMid.width;sc.height=vpMid.height;
-      await page.render({canvasContext:sc.getContext('2d'),viewport:vpMid}).promise;
-      const prev=sc.toDataURL('image/jpeg',.88);
-      // Extract page bytes
+      // Thumb
+      const vpLo=page.getViewport({scale:.6});
+      const sc=document.getElementById('sc');sc.width=vpLo.width;sc.height=vpLo.height;
+      await page.render({canvasContext:sc.getContext('2d'),viewport:vpLo}).promise;
+      const thumb=sc.toDataURL('image/jpeg',.78);
+      // Preview
+      const vpHi=page.getViewport({scale:1.6});
+      sc.width=vpHi.width;sc.height=vpHi.height;
+      await page.render({canvasContext:sc.getContext('2d'),viewport:vpHi}).promise;
+      const preview=sc.toDataURL('image/jpeg',.88);
+      // Page bytes
       const{PDFDocument}=PDFLib;
       const src=await PDFDocument.load(bytes);const out=await PDFDocument.create();
       const[cp]=await out.copyPages(src,[i-1]);out.addPage(cp);
       const pgBytes=await out.save();
-      proj.pages.push({id:mkId(),thumb,preview:prev,data:pgBytes,type:'pdf-page',sel:false});
+      proj.pages.push({id:mkId(),thumb,preview,data:pgBytes,type:'pdf-page',sel:false});
     }
-    hideLoad();render();saveState();toast(`✅ ${n} pág${n>1?'s':''} cargadas`);
+    hideLoad();render();scheduleSave();toast(`✅ ${n} pág${n>1?'s':''} cargadas`);
   }catch(err){hideLoad();toast('❌ Error al cargar el PDF');console.error(err)}
 }
 
-// ═══════════════════════════════════════════════════
-//  EXPORT + WATERMARK
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════════
 async function exportProj(projId){
   const proj=APP.projects.find(p=>p.id===projId);
   if(!proj||!proj.pages.length){toast('El proyecto está vacío');return}
@@ -820,19 +778,16 @@ async function exportProj(projId){
       }
     }
     const bytes=await out.save();useOne();updateBadge();
-    APP.resBuf=bytes;
-    APP.resName=proj.name.replace(/\s+/g,'_')+'_'+Date.now()+'.pdf';
+    APP.resBuf=bytes;APP.resName=proj.name.replace(/\s+/g,'_')+'_'+Date.now()+'.pdf';
     document.getElementById('res-name').textContent=APP.resName;
-    document.getElementById('res-meta').textContent=`${proj.pages.length} página${proj.pages.length>1?'s':''} · ${isPremium()?'sin marca de agua':'plan gratuito'}`;
+    document.getElementById('res-meta').textContent=`${proj.pages.length} pág${proj.pages.length>1?'s':''} · ${isPremium()?'sin marca de agua':'plan gratuito'}`;
     hideLoad();document.getElementById('modal-res').classList.add('open');
   }catch(err){hideLoad();toast('❌ Error al generar PDF');console.error(err)}
 }
 
-// ═══════════════════════════════════════════════════
-//  CROP — REBUILT
-//  Key fix: get area size AFTER modal is visible, 
-//  set canvas to match exactly, no CSS constraints
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// CROP — correctly sized canvas, no distortion
+// ═══════════════════════════════════════════════
 function showCrop(dataUrl){
   return new Promise((res,rej)=>{
     APP.cRes=res;APP.cRej=rej;
@@ -841,10 +796,7 @@ function showCrop(dataUrl){
     const img=new Image();
     img.onload=()=>{
       APP.cImg=img;
-      // Wait 2 frames for modal layout to settle
-      requestAnimationFrame(()=>requestAnimationFrame(()=>{
-        initCropCv();drawCrop();
-      }));
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{initCropCv();drawCrop()}));
     };
     img.src=dataUrl;
   });
@@ -853,79 +805,58 @@ function showCrop(dataUrl){
 function initCropCv(){
   const img=APP.cImg;
   const area=document.getElementById('crop-area');
-  let aW=area.clientWidth;
-  let aH=area.clientHeight;
-
-  // Fallback if layout not ready
-  if(!aW||!aH){
-    aW=window.innerWidth;
-    aH=Math.floor(window.innerHeight*.55);
-  }
-
-  // Scale to fit area, preserving image aspect ratio
-  const scale=Math.min(aW/img.naturalWidth, aH/img.naturalHeight);
+  const aW=area.clientWidth||window.innerWidth;
+  const aH=area.clientHeight||(window.innerHeight*.58);
+  const scale=Math.min(aW/img.naturalWidth,aH/img.naturalHeight);
   const dW=Math.floor(img.naturalWidth*scale);
   const dH=Math.floor(img.naturalHeight*scale);
-
   const cv=document.getElementById('crop-cv');
-  // Set canvas buffer size = display size (prevents any DPR mismatch)
-  cv.width=dW;
-  cv.height=dH;
-  // Position centered in area
-  cv.style.cssText=`position:absolute;width:${dW}px;height:${dH}px;display:block;touch-action:none;cursor:crosshair;left:${Math.floor((aW-dW)/2)}px;top:${Math.floor((aH-dH)/2)}px`;
-
-  APP.cW=dW;APP.cH=dH;
-  APP.cCx=cv.getContext('2d');
-
-  // Coordinate helper — uses getBoundingClientRect for accuracy
+  cv.width=dW;cv.height=dH;
+  cv.style.cssText=`position:absolute;width:${dW}px;height:${dH}px;touch-action:none;cursor:crosshair;left:${Math.floor((aW-dW)/2)}px;top:${Math.floor((aH-dH)/2)}px`;
+  APP.cW=dW;APP.cH=dH;APP.cCx=cv.getContext('2d');
   const pos=(cx,cy)=>{const r=cv.getBoundingClientRect();return{x:cx-r.left,y:cy-r.top}};
-
   cv.onmousedown=e=>{const p=pos(e.clientX,e.clientY);cStart(p.x,p.y)};
-  cv.onmousemove=e=>{const p=pos(e.clientX,e.clientY);cMove(p.x,p.y)};
-  cv.onmouseup=()=>{APP.cHandle=null};
+  cv.onmousemove=e=>{if(APP.cHandle){const p=pos(e.clientX,e.clientY);cMove(p.x,p.y)}};
+  cv.onmouseup=()=>APP.cHandle=null;
   cv.ontouchstart=e=>{e.preventDefault();const t=e.touches[0],p=pos(t.clientX,t.clientY);cStart(p.x,p.y)};
   cv.ontouchmove=e=>{e.preventDefault();const t=e.touches[0],p=pos(t.clientX,t.clientY);cMove(p.x,p.y)};
-  cv.ontouchend=()=>{APP.cHandle=null};
+  cv.ontouchend=()=>APP.cHandle=null;
 }
 
 function drawCrop(){
   const{cCx:cx,cImg:img,cRect:r,cW:W,cH:H}=APP;if(!cx||!W||!H)return;
   cx.clearRect(0,0,W,H);
-  // Draw full image dimmed
   cx.drawImage(img,0,0,W,H);
-  cx.fillStyle='rgba(0,0,0,.58)';cx.fillRect(0,0,W,H);
-  // Crop window — show image at full brightness inside
+  // Dim outside
+  cx.fillStyle='rgba(0,0,0,.6)';cx.fillRect(0,0,W,H);
   const rx=Math.round(r.x*W),ry=Math.round(r.y*H),rw=Math.round(r.w*W),rh=Math.round(r.h*H);
+  // Reveal inside
   cx.drawImage(img,rx,ry,rw,rh,rx,ry,rw,rh);
   // Border
-  cx.strokeStyle='#FFCB05';cx.lineWidth=2;cx.strokeRect(rx,ry,rw,rh);
-  // Rule of thirds guides
-  cx.strokeStyle='rgba(255,203,5,.3)';cx.lineWidth=1;cx.setLineDash([4,4]);
-  cx.beginPath();cx.moveTo(rx+rw/3,ry);cx.lineTo(rx+rw/3,ry+rh);cx.stroke();
-  cx.beginPath();cx.moveTo(rx+2*rw/3,ry);cx.lineTo(rx+2*rw/3,ry+rh);cx.stroke();
-  cx.beginPath();cx.moveTo(rx,ry+rh/3);cx.lineTo(rx+rw,ry+rh/3);cx.stroke();
-  cx.beginPath();cx.moveTo(rx,ry+2*rh/3);cx.lineTo(rx+rw,ry+2*rh/3);cx.stroke();
+  cx.strokeStyle='#FFCB05';cx.lineWidth=2.5;cx.strokeRect(rx,ry,rw,rh);
+  // Thirds guide
+  cx.strokeStyle='rgba(255,203,5,.25)';cx.lineWidth=1;cx.setLineDash([3,4]);
+  for(let i=1;i<3;i++){
+    cx.beginPath();cx.moveTo(rx+rw*i/3,ry);cx.lineTo(rx+rw*i/3,ry+rh);cx.stroke();
+    cx.beginPath();cx.moveTo(rx,ry+rh*i/3);cx.lineTo(rx+rw,ry+rh*i/3);cx.stroke();
+  }
   cx.setLineDash([]);
-  // Corner handles — large enough to touch
-  cx.fillStyle='#FFCB05';cx.strokeStyle='#fff';cx.lineWidth=2;
-  [[rx,ry],[rx+rw,ry],[rx,ry+rh],[rx+rw,ry+rh]].forEach(([hx,hy])=>{
-    cx.beginPath();cx.arc(hx,hy,12,0,Math.PI*2);cx.fill();cx.stroke();
-  });
+  // Handles
+  cx.fillStyle='#FFCB05';cx.strokeStyle='rgba(0,0,0,.5)';cx.lineWidth=1.5;
+  [[rx,ry],[rx+rw,ry],[rx,ry+rh],[rx+rw,ry+rh]].forEach(([hx,hy])=>{cx.beginPath();cx.arc(hx,hy,11,0,Math.PI*2);cx.fill();cx.stroke()});
 }
 
 function cHit(px,py){
   const{cRect:r,cW:W,cH:H}=APP;
-  const rx=r.x*W,ry=r.y*H,rw=r.w*W,rh=r.h*H,hs=30;
-  for(const[n,hx,hy]of[['tl',rx,ry],['tr',rx+rw,ry],['bl',rx,ry+rh],['br',rx+rw,ry+rh]]){
-    if(Math.abs(px-hx)<hs&&Math.abs(py-hy)<hs)return n;
-  }
-  return(px>=rx-8&&px<=rx+rw+8&&py>=ry-8&&py<=ry+rh+8)?'move':null;
+  const rx=r.x*W,ry=r.y*H,rw=r.w*W,rh=r.h*H,hs=28;
+  for(const[n,hx,hy]of[['tl',rx,ry],['tr',rx+rw,ry],['bl',rx,ry+rh],['br',rx+rw,ry+rh]]){if(Math.abs(px-hx)<hs&&Math.abs(py-hy)<hs)return n}
+  return(px>=rx-6&&px<=rx+rw+6&&py>=ry-6&&py<=ry+rh+6)?'move':null;
 }
 function cStart(px,py){APP.cHandle=cHit(px,py);APP.cLP={x:px,y:py}}
 function cMove(px,py){
   if(!APP.cHandle)return;
   const{cRect:r,cW:W,cH:H,cLP:lp}=APP;
-  const dx=(px-lp.x)/W,dy=(py-lp.y)/H;APP.cLP={x:px,y:py};const mn=.05;
+  const dx=(px-lp.x)/W,dy=(py-lp.y)/H;APP.cLP={x:px,y:py};const mn=.04;
   if(APP.cHandle==='move'){r.x=Math.max(0,Math.min(1-r.w,r.x+dx));r.y=Math.max(0,Math.min(1-r.h,r.y+dy))}
   else{
     if(APP.cHandle==='tl'){r.x+=dx;r.y+=dy;r.w-=dx;r.h-=dy}
@@ -940,15 +871,11 @@ function cMove(px,py){
 function applyCrop(){
   const{cImg:img,cRect:r}=APP;if(!img||!APP.cRes)return;
   const sc=document.getElementById('sc');
-  // Extract at FULL resolution
-  const sx=img.naturalWidth*r.x,sy=img.naturalHeight*r.y;
-  const sw=img.naturalWidth*r.w,sh=img.naturalHeight*r.h;
-  sc.width=Math.round(sw);sc.height=Math.round(sh);
-  sc.getContext('2d').drawImage(img,sx,sy,sw,sh,0,0,sc.width,sc.height);
+  sc.width=Math.round(img.naturalWidth*r.w);sc.height=Math.round(img.naturalHeight*r.h);
+  sc.getContext('2d').drawImage(img,img.naturalWidth*r.x,img.naturalHeight*r.y,img.naturalWidth*r.w,img.naturalHeight*r.h,0,0,sc.width,sc.height);
   const out=sc.toDataURL('image/jpeg',.94);
   document.getElementById('modal-crop').classList.remove('open');
-  const res=APP.cRes;
-  APP.cRes=null;APP.cRej=null;APP.cImg=null;APP.cHandle=null;APP.cCx=null;APP.cW=0;APP.cH=0;
+  const res=APP.cRes;APP.cRes=null;APP.cRej=null;APP.cImg=null;APP.cHandle=null;APP.cCx=null;APP.cW=0;APP.cH=0;
   res(out);
 }
 function cancelCrop(){
@@ -956,33 +883,32 @@ function cancelCrop(){
   if(APP.cRej){const rej=APP.cRej;APP.cRes=null;APP.cRej=null;APP.cImg=null;APP.cHandle=null;APP.cCx=null;APP.cW=0;APP.cH=0;rej('cancelled')}
 }
 
-// ═══════════════════════════════════════════════════
-//  PREVIEW (full-res)
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// PREVIEW
+// ═══════════════════════════════════════════════
 function openPreview(src,label){
   document.getElementById('preview-img').src=src;
   document.getElementById('preview-label').textContent=label||'';
   document.getElementById('modal-preview').classList.add('open');
 }
-const closePreview=()=>{document.getElementById('modal-preview').classList.remove('open')};
+const closePreview=()=>document.getElementById('modal-preview').classList.remove('open');
 document.getElementById('modal-preview').addEventListener('click',function(e){if(e.target===this||e.target===document.getElementById('preview-img'))closePreview()});
 
-// ═══════════════════════════════════════════════════
-//  SHARE WITH CONTACT INPUT
-// ═══════════════════════════════════════════════════
-// Check Contacts API support (Android Chrome)
-const hasContactsApi=!!(navigator.contacts&&navigator.contacts.select);
+// ═══════════════════════════════════════════════
+// SHARE / CONTACT
+// ═══════════════════════════════════════════════
+const hasContactsApi=!!(navigator.contacts?.select);
 if(hasContactsApi)document.getElementById('btn-contacts').style.display='flex';
 
 async function pickContact(){
   try{
     const props=APP.shareMode==='gmail'?['email']:['tel','name'];
     const res=await navigator.contacts.select(props,{multiple:false});
-    if(!res||!res.length)return;
+    if(!res?.length)return;
     const c=res[0];
-    const val=APP.shareMode==='gmail'?(c.email&&c.email[0]||''):(c.tel&&c.tel[0]||'');
+    const val=APP.shareMode==='gmail'?(c.email?.[0]||''):(c.tel?.[0]||'');
     if(val)document.getElementById('contact-input').value=val;
-  }catch(e){toast('No se pudo acceder a contactos')}
+  }catch{toast('No se pudo acceder a contactos')}
 }
 
 function initShare(mode){
@@ -990,13 +916,13 @@ function initShare(mode){
   const inp=document.getElementById('contact-input');
   if(mode==='gmail'){
     document.getElementById('contact-title').textContent='📧 Enviar por Gmail';
-    document.getElementById('contact-sub').textContent='Ingresa el correo del destinatario. El PDF se descargará y Gmail se abrirá listo para enviar.';
-    document.getElementById('contact-note').textContent='ℹ️ Gmail no permite adjuntar archivos automáticamente — deberás adjuntar el PDF descargado manualmente.';
+    document.getElementById('contact-sub').textContent='Ingresa el correo del destinatario.';
+    document.getElementById('contact-note').textContent='ℹ️ El PDF se descarga primero. Gmail se abre con el correo rellenado — adjunta el PDF manualmente.';
     inp.type='email';inp.placeholder='correo@ejemplo.com';inp.inputMode='email';
   } else {
     document.getElementById('contact-title').textContent='💬 Enviar por WhatsApp';
-    document.getElementById('contact-sub').textContent='Ingresa el número con código de país (ej: 573001234567). En móvil también puedes compartir el archivo directamente.';
-    document.getElementById('contact-note').textContent='ℹ️ En teléfonos Android el PDF se puede compartir directo. En otros casos se descarga y abre el chat.';
+    document.getElementById('contact-sub').textContent='Ingresa el número con código de país.';
+    document.getElementById('contact-note').textContent='ℹ️ En Android el PDF se puede compartir directo. En otros casos se descarga y abre el chat al número ingresado.';
     inp.type='tel';inp.placeholder='573001234567';inp.inputMode='numeric';
   }
   inp.value='';
@@ -1011,32 +937,20 @@ async function doSend(){
   const val=document.getElementById('contact-input').value.trim();
   if(!val){toast('Ingresa el dato requerido');return}
   closeContact();
-
   if(APP.shareMode==='wa'){
     const clean=val.replace(/\D/g,'');
-    // Try native file share first (works on Android Chrome)
     if(navigator.share&&navigator.canShare){
-      try{
-        const file=new File([APP.resBuf],APP.resName,{type:'application/pdf'});
-        if(navigator.canShare({files:[file]})){
-          await navigator.share({files:[file],title:'DocuFácilCol',text:'Te comparto este documento.'});
-          return;
-        }
-      }catch(e){if(e.name==='AbortError')return}
+      try{const file=new File([APP.resBuf],APP.resName,{type:'application/pdf'});if(navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'DocuFácilCol'});return}}catch(e){if(e.name==='AbortError')return}
     }
-    // Fallback: download + open chat
-    dlResult();
-    setTimeout(()=>{window.open(`https://wa.me/${clean}`,'_blank');toast('📎 Adjunta el PDF descargado en el chat')},900);
+    dlResult();setTimeout(()=>{window.open(`https://wa.me/${clean}`,'_blank');toast('📎 Adjunta el PDF en WhatsApp')},900);
   } else {
-    const clean=encodeURIComponent(val);
-    dlResult();
-    setTimeout(()=>{window.open(`https://mail.google.com/mail/?view=cm&to=${clean}`,'_blank');toast('📎 Adjunta el PDF descargado en Gmail')},900);
+    dlResult();setTimeout(()=>{window.open(`https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(val)}`,'_blank');toast('📎 Adjunta el PDF en Gmail')},900);
   }
 }
 
-// ═══════════════════════════════════════════════════
-//  PLANS / ABOUT
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// PLANS / ABOUT
+// ═══════════════════════════════════════════════
 const showPlans=()=>document.getElementById('modal-plans').classList.add('open');
 const closePlans=()=>document.getElementById('modal-plans').classList.remove('open');
 document.getElementById('modal-plans').addEventListener('click',function(e){if(e.target===this)closePlans()});
@@ -1052,27 +966,18 @@ const showAbout=()=>document.getElementById('modal-about').classList.add('open')
 const closeAbout=()=>document.getElementById('modal-about').classList.remove('open');
 document.getElementById('modal-about').addEventListener('click',function(e){if(e.target===this)closeAbout()});
 
-// ═══════════════════════════════════════════════════
-//  RESULT / DOWNLOAD / SHARE
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// RESULT / DOWNLOAD
+// ═══════════════════════════════════════════════
 const getBlob=()=>new Blob([APP.resBuf],{type:'application/pdf'});
-function dlResult(){
-  const url=URL.createObjectURL(getBlob());const a=document.createElement('a');
-  a.href=url;a.download=APP.resName;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);
-  toast('✅ PDF descargado');
-}
-async function shareNative(){
-  if(navigator.canShare){
-    try{const f=new File([getBlob()],APP.resName,{type:'application/pdf'});if(navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'DocuFácilCol'});return}}catch(e){if(e.name==='AbortError')return}
-  }
-  dlResult();
-}
+function dlResult(){const url=URL.createObjectURL(getBlob());const a=document.createElement('a');a.href=url;a.download=APP.resName;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);toast('✅ PDF descargado')}
+async function shareNative(){if(navigator.canShare){try{const f=new File([getBlob()],APP.resName,{type:'application/pdf'});if(navigator.canShare({files:[f]})){await navigator.share({files:[f],title:'DocuFácilCol'});return}}catch(e){if(e.name==='AbortError')return}}dlResult()}
 const closeResult=()=>document.getElementById('modal-res').classList.remove('open');
 document.getElementById('modal-res').addEventListener('click',function(e){if(e.target===this)closeResult()});
 
-// ═══════════════════════════════════════════════════
-//  HELPERS
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════
 function fixOri(file){
   return new Promise((res,rej)=>{
     const url=URL.createObjectURL(file);const img=new Image();
@@ -1092,12 +997,12 @@ async function mkThumb(dataUrl,maxW,maxH){
   const s=Math.min(maxW/img.naturalWidth,maxH/img.naturalHeight,1);
   sc.width=Math.round(img.naturalWidth*s);sc.height=Math.round(img.naturalHeight*s);
   sc.getContext('2d').drawImage(img,0,0,sc.width,sc.height);
-  return sc.toDataURL('image/jpeg',.8);
+  return sc.toDataURL('image/jpeg',.82);
 }
 
-// ═══════════════════════════════════════════════════
-//  INIT
-// ═══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
 async function init(){
   await IDB.open();
   await loadState();
